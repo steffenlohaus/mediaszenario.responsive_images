@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Responsive Images</title>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>
+        
+        // http://javascriptweblog.wordpress.com/2010/12/07/namespacing-in-javascript
+        var mediaszenario = {
+            
+            /* -------------------------------------------------
+            * responsive_images()
+            * ------------------------------------------------- */
+            responsive_images : function( prepend , append , callbackFnk )
+            {
+                
+                // DOM manipulation.
+                $( 'img' ).each( function()
+                {
+                    var img = $( this );
+                    
+                    // http://stackoverflow.com/questions/1318076/jquery-hasattr-checking-to-see-if-there-is-an-attribute-on-an-element
+                    if( typeof img.attr( 'id' ) !== 'undefined' && img.attr( 'id' ) !== false ) 
+                    {
+                        var src = prepend + img.attr( 'id'  ) + append;
+                        img.attr( 'src' , src );
+                    }
+                });     
+                
+                // http://jquery-howto.blogspot.de/2009/11/create-callback-functions-for-your.html
+                if( typeof callbackFnk == 'function' )
+                {
+                    callbackFnk.call( this );
+                }
+                
+            }
+                
+        }
+        
+        var breakpoint = 960;
+        
+        /* -------------------------------------------------
+         * DOM READY
+        * ------------------------------------------------- */
+        $( document ).bind( 'ready' , function()
+        {  
+            
+            if ( $( window ).width() > breakpoint ) // Desktop.
+            {
+                
+                mediaszenario.responsive_images( 'img/' , '_b.jpg' , function()
+                {
+                    
+                    // Callback stuff here.
+                    
+                });
+                   
+            } else // Mobile.
+            {
+                
+                mediaszenario.responsive_images( 'img/' , '_m.jpg' , function()
+                {
+                    
+                    // Callback stuff here.
+                    
+                });
+             
+            }
+            
+        });
+        
+    </script>
+</head>
+
+<body>
+    <h1>Responsive Images</h1>
+    <p>Just resize and reload...</p>
+    <img id="dog" />
+</body>
+</html>
